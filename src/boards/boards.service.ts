@@ -5,70 +5,63 @@ import { CreateBoardDto } from './create-board.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { BoardRepository } from './board.repositoty';
 import { Board } from './board.entitiy';
+import { Between } from 'typeorm';
 
 @Injectable()
 export class BoardsService {
+  constructor(
+    @InjectRepository(BoardRepository)
+    private boardRepository: BoardRepository,
+  ) {}
 
-    constructor(
-        @InjectRepository(BoardRepository)
-        private boardRepository: BoardRepository, 
-    ){}
+  async getBoardById(id: number): Promise<Board> {
+    const found = await this.boardRepository.findOneBy({ id });
 
-    async getBoardById(id: number): Promise <Board>{
-        
-        const found = await this.boardRepository.findOneBy({id});
-
-        if(!found){
-            throw new NotFoundException(`Can't find Board with id ${id}`)
-        }
-
-        return found;
+    if (!found) {
+      throw new NotFoundException(`Can't find Board with id ${id}`);
     }
 
+    return found;
+  }
 
-    async getBoardByDate(date:string): Promise <Board>{
-        
-        const found = await this.boardRepository.findOneBy({date});
+  async getBoardByDateRange(
+    startDate: string,
+    endDate: string,
+  ): Promise<Board[]> {
+    return this.boardRepository.find({
+      where: {
+        date: Between(new Date(startDate), new Date(endDate)),
+      },
+    });
+  }
 
-        if(!found){
-            throw new NotFoundException(`Can't find Board with date ${date}`)
-        }
+  createBoard(createBoardDto: CreateBoardDto): Promise<Board> {
+    return this.boardRepository.createBoard(createBoardDto);
+  }
 
-        return found;
+  async deleteBoard(id: number): Promise<void> {
+    const result = await this.boardRepository.delete(id);
+
+    if (result.affected === 0) {
+      throw new NotFoundException(`Can't find Board with id ${id}`);
     }
+    console.log(result);
+  }
 
+  async updateBoardStatus(id: number, status: BoardStatus): Promise<Board> {
+    const board = await this.getBoardById(id);
 
+    board.status = status;
 
+    await this.boardRepository.save(board);
 
-    createBoard(createBoardDto: CreateBoardDto): Promise<Board>{
-       
-       return this.boardRepository.createBoard(createBoardDto);
+    return board;
+  }
 
-    }
-
-    async deleteBoard(id: number): Promise<void>{
-        const result = await this.boardRepository.delete(id);
-
-        if(result.affected === 0){
-            throw new NotFoundException(`Can't find Board with id ${id}`)
-        }
-        console.log(result);
-    }
-
-    async updateBoardStatus(id: number, status: BoardStatus): Promise<Board>{
-        const board = await this.getBoardById(id);
-
-        board.status = status;
-
-        await this.boardRepository.save(board);
-
-        return board;
-    }
-
-    async getAllBoards(): Promise<Board[]>{
-        return this.boardRepository.find();
-    }
-    /* 
+  async getAllBoards(): Promise<Board[]> {
+    return this.boardRepository.find();
+  }
+  /* 
     getAllBoards(): Board[] {
         return this.boards;
     }

@@ -9,8 +9,8 @@ export class Board extends BaseEntity {
   @Column()
   num: string;
 
-  @Column()
-  date: string;
+  @Column({ type: 'date' })
+  date: Date;
   @Column()
   point: string;
   @Column()
@@ -26,7 +26,7 @@ export class Board extends BaseEntity {
   name: string;
 
   @Column()
-  pwd:string;
+  pwd: string;
 
   @Column()
   status: BoardStatus;

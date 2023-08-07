@@ -19,6 +19,6 @@ export class CreateBoardDto {
     date: string;
     @IsNotEmpty()
     pwd: string;
-
+    
 
 }

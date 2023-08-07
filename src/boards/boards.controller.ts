@@ -20,20 +20,22 @@ export class BoardsController {
   constructor(private boardsService: BoardsService) {}
 
   // 전체 중 id로 객체 가져오기
-  @Get('/:id')
-  getBoardById(
-    @Param('id') id: number): Promise<Board> {
-    return this.boardsService.getBoardById(id);
+  // @Get('/:id')
+  // getBoardById(@Param('id') id: number): Promise<Board> {
+  //   return this.boardsService.getBoardById(id);
+  // }
+
+  // 날짜 사이의 게시물 검색
+  @Get('/date/:startDate/:endDate')
+  getBoardByDateRange(
+    @Param('startDate') startDate: string,
+    @Param('endDate') endDate: string,
+  ): Promise<Board[]> {
+    return this.boardsService.getBoardByDateRange(startDate, endDate);
   }
 
-  @Get('/date/:date')
-  getBoardByDate(
-    @Param('date') date:string
-  ): Promise<Board> {
-    return this.boardsService.getBoardByDate(date);
-  }
   //전체 가져오기
-  @Get()
+  @Get('/date')
   getAllBoard(): Promise<Board[]> {
     return this.boardsService.getAllBoards();
   }
@@ -48,7 +50,7 @@ export class BoardsController {
   deleteBoard(@Param('id') id: number): Promise<void> {
     return this.boardsService.deleteBoard(id);
   }
- // 업데이트
+  // 업데이트
   @Patch('/:id/status')
   updateBoardStatus(
     @Param('id') id: number,
