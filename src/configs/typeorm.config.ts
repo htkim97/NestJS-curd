@@ -21,7 +21,7 @@ export const typeORMConfig : TypeOrmModuleOptions = {
     port: 3306,
     username: 'intelloid',
     password: 'itld2010',
-    database: 'bizphone_itld',
+    database: 'bizphone_dev',
     entities: [__dirname + '/../**/*.entitiy.{js,ts}'],
     synchronize: false,
     migrationsTableName: "migrations",

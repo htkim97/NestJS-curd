@@ -8,6 +8,8 @@ import {
   Patch,
   UsePipes,
   ValidationPipe,
+  Query,
+  ParseIntPipe
 } from '@nestjs/common';
 import { BoardsService } from './boards.service';
 import { BoardStatus } from './board-status.enum';
@@ -15,7 +17,8 @@ import { CreateBoardDto } from './create-board.dto';
 import { BoardStatusValidationPipe } from './pipes/board-status-validation.pipe';
 import { Board } from './board.entitiy';
 
-@Controller('boards')
+
+@Controller('users')
 export class BoardsController {
   constructor(private boardsService: BoardsService) {}
 
@@ -40,24 +43,42 @@ export class BoardsController {
     return this.boardsService.getAllBoards();
   }
   // 등록하기
-  @Post()
+  @Post('/:num/:office/:point/:usage/:email/:address/:emer_num/:name/:pwd')
   @UsePipes(ValidationPipe)
-  createBoard(@Body() CreateBoardDto: CreateBoardDto): Promise<Board> {
+  createBoard(
+    @Param() CreateBoardDto: CreateBoardDto
+    ): Promise<Board> {
     return this.boardsService.createBoard(CreateBoardDto);
   }
+
+
   // 해당 id 객체 삭제하기
   @Delete('/:id')
   deleteBoard(@Param('id') id: number): Promise<void> {
     return this.boardsService.deleteBoard(id);
   }
-  // 업데이트
-  @Patch('/:id/status')
-  updateBoardStatus(
-    @Param('id') id: number,
-    @Body('status') status: BoardStatus,
-  ): Promise<Board> {
-    return this.boardsService.updateBoardStatus(id, status);
+  
+  // @Post('/:id')
+  // async updateBoard(
+  //   @Param('id') id: number,
+  //   @Body() createBoardDto: CreateBoardDto,
+  // ) {
+  //   return this.boardsService.updateBoard(id, createBoardDto);
+  // }
+
+
+  @Patch('/:id')
+  updateBoard(
+    @Param('id') id: number, 
+    @Query() createBoardDto: CreateBoardDto
+  ) {
+    return this.boardsService.updateBoard(id, createBoardDto);
   }
+
+
+
+
+
   /*     @Get('/')
     getAllBoard(): Board[] {
         return this.boardsService.getAllBoards();

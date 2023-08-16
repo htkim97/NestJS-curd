@@ -1,24 +1,34 @@
-import { IsNotEmpty, IsString  } from "class-validator";
+import { IsNotEmpty, IsNumber, IsString } from 'class-validator';
 
 export class CreateBoardDto {
-    @IsString()
-    name: string;
-    @IsNotEmpty()
-    num: string;
-    @IsNotEmpty()
-    point: string;
-    @IsNotEmpty()
-    usage: string;
-    @IsNotEmpty()
-    email: string;
-    @IsNotEmpty()
-    address: string;
-    @IsNotEmpty()
-    emer_num: string;
-    @IsNotEmpty()
-    date: string;
-    @IsNotEmpty()
-    pwd: string;
-    
+  @IsNumber()
+  idx: number;
+  @IsNotEmpty()
+  user_name: string;
+  @IsNotEmpty()
+  tel_one: string;
+  @IsNotEmpty()
+  created_at: string;
+  @IsNotEmpty()
+  update_at: string;
+  @IsNotEmpty()
+  email: string;
+  @IsNotEmpty()
+  address: string;
+  @IsNotEmpty()
+  tel_two: string;
+  @IsNotEmpty()
+  office_name: string;
+  @IsNotEmpty()
+  password: string;
+  @IsNotEmpty()
+  regi_date: string;
+  @IsNotEmpty()
+  last_call_time: string;
+  @IsNotEmpty()
+  user_no: string;
+  @IsNotEmpty()
+  recentlyLoginTime: string;
+  
 
 }

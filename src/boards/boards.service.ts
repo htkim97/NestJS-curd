@@ -7,6 +7,9 @@ import { BoardRepository } from './board.repositoty';
 import { Board } from './board.entitiy';
 import { Between } from 'typeorm';
 
+
+
+
 @Injectable()
 export class BoardsService {
   constructor(
@@ -14,11 +17,11 @@ export class BoardsService {
     private boardRepository: BoardRepository,
   ) {}
 
-  async getBoardById(id: number): Promise<Board> {
-    const found = await this.boardRepository.findOneBy({ id });
+  async getBoardById(idx: number): Promise<Board> {
+    const found = await this.boardRepository.findOneBy({ idx });
 
     if (!found) {
-      throw new NotFoundException(`Can't find Board with id ${id}`);
+      throw new NotFoundException(`Can't find Board with id ${idx}`);
     }
 
     return found;
@@ -30,14 +33,17 @@ export class BoardsService {
   ): Promise<Board[]> {
     return this.boardRepository.find({
       where: {
-        date: Between(new Date(startDate), new Date(endDate)),
+        regi_date: Between(new Date(startDate), new Date(endDate)),
       },
     });
   }
 
-  createBoard(createBoardDto: CreateBoardDto): Promise<Board> {
+  createBoard(
+    createBoardDto: CreateBoardDto
+    ): Promise<Board> {
     return this.boardRepository.createBoard(createBoardDto);
   }
+
 
   async deleteBoard(id: number): Promise<void> {
     const result = await this.boardRepository.delete(id);
@@ -48,19 +54,58 @@ export class BoardsService {
     console.log(result);
   }
 
-  async updateBoardStatus(id: number, status: BoardStatus): Promise<Board> {
-    const board = await this.getBoardById(id);
-
-    board.status = status;
-
-    await this.boardRepository.save(board);
-
-    return board;
-  }
 
   async getAllBoards(): Promise<Board[]> {
     return this.boardRepository.find();
   }
+
+async updateBoard(idx: number, createBoardDto: CreateBoardDto): Promise<Board> {
+  const board = await this.boardRepository.findOneBy({idx}); // findOneBy 대신 findOne 사용
+
+  if (!board) {
+    throw new NotFoundException(`Board with id ${idx} not found`);
+  }
+
+  if (createBoardDto.user_name) {
+    board.user_name = createBoardDto.user_name;
+  }
+  if (createBoardDto.tel_one) {
+    board.tel_one = createBoardDto.tel_one;
+  }
+  // if (createBoardDto.point) {
+  //   board.point = createBoardDto.point;
+  // }
+  // if (createBoardDto.usage) {
+  //   board.usage = createBoardDto.usage;
+  // }
+  if (createBoardDto.email) {
+    board.email = createBoardDto.email;
+  }
+  if (createBoardDto.address) {
+    board.address = createBoardDto.address;
+  }
+  if (createBoardDto.tel_two) {
+    board.tel_two = createBoardDto.tel_two;
+  }
+  if (createBoardDto.office_name) {
+    board.office_name = createBoardDto.office_name;
+  }
+  if (createBoardDto.password) {
+    board.password = createBoardDto.password;
+  }
+  if (createBoardDto.last_call_time) {
+    board.last_call_time = createBoardDto.last_call_time;
+  }
+
+
+  // 변경사항 저장
+  await this.boardRepository.save(board);
+  return board;
+}
+
+
+
+
   /* 
     getAllBoards(): Board[] {
         return this.boards;

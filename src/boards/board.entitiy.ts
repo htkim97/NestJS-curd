@@ -1,33 +1,38 @@
 import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 import { BoardStatus } from './board-status.enum';
 
-@Entity()
+@Entity({ name: 'users'})
 export class Board extends BaseEntity {
   @PrimaryGeneratedColumn()
-  id: number;
-
+  idx: number;
   @Column()
-  num: string;
-
+  tel_one: string;
   @Column({ type: 'date' })
-  date: Date;
+  regi_date: Date;
   @Column()
-  point: string;
+  // point: string;
+  // @Column()
+  office_name: string;
   @Column()
-  usage: string;
-  @Column()
+  // usage: string;
+  // @Column()
   email: string;
   @Column()
   address: string;
   @Column()
-  emer_num: string;
-
+  tel_two: string;
   @Column()
-  name: string;
-
+  user_name: string;
   @Column()
-  pwd: string;
-
+  password: string;
+  @Column()
+  last_call_time: string;
+  @Column()
+  created_at: string;
+  // @Column()
+  // update_at: string;
+  @Column()
+  user_no: string;
   @Column()
   status: BoardStatus;
 }
