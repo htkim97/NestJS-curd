@@ -79,10 +79,7 @@ export class BoardsController {
 
 
 
-  /*     @Get('/')
-    getAllBoard(): Board[] {
-        return this.boardsService.getAllBoards();
-    }
+  /* 
     
     @Post()
     @UsePipes(ValidationPipe)
