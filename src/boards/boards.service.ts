@@ -2,20 +2,28 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { BoardStatus } from './board-status.enum';
 import { v1 as uuid } from 'uuid';
 import { CreateBoardDto } from './create-board.dto';
+
 import { InjectRepository } from '@nestjs/typeorm';
 import { BoardRepository } from './board.repositoty';
 import { Board } from './board.entitiy';
 import { Between } from 'typeorm';
-
-
+import { FindManyOptions } from 'typeorm';
+import { Point_b } from '../point/point.entitiy';
+import {pointDto} from '../point/dto/point.dto'
+import { pointRepository } from '../point/point.repository';
 
 
 @Injectable()
 export class BoardsService {
+
+
   constructor(
     @InjectRepository(BoardRepository)
     private boardRepository: BoardRepository,
+    // @InjectRepository(Point_b)
+    // private readonly pointRepository: pointRepository,
   ) {}
+  
 
   async getBoardById(idx: number): Promise<Board> {
     const found = await this.boardRepository.findOneBy({ idx });
@@ -30,20 +38,46 @@ export class BoardsService {
   async getBoardByDateRange(
     startDate: string,
     endDate: string,
+    status: string, // status 추가
   ): Promise<Board[]> {
+    const dateRange = {
+      regi_date: Between(new Date(startDate), new Date(endDate)),
+    };
+
+    if (status === 'active') {
+      dateRange['status'] = 'active';
+    } else if (status === 'disabled') {
+      dateRange['status'] = 'disabled';
+    }
+
     return this.boardRepository.find({
-      where: {
-        regi_date: Between(new Date(startDate), new Date(endDate)),
-      },
+      where: dateRange,
     });
   }
 
-  createBoard(
-    createBoardDto: CreateBoardDto
-    ): Promise<Board> {
-    return this.boardRepository.createBoard(createBoardDto);
-  }
+  // createBoard(
+  //   createBoardDto: CreateBoardDto
+  //   ): Promise<Board> {
+  //   return this.boardRepository.createBoard(createBoardDto);
+  // }
 
+  // async createBoard(createBoardDto: CreateBoardDto): Promise<Board> {
+  //   return this.boardRepository.createBoard(createBoardDto);
+  // }
+
+  async createBoard(createBoardDto: CreateBoardDto): Promise<Board> {
+    const board = new Board();
+    board.office_name = createBoardDto.office_name;
+    board.tel_one = createBoardDto.tel_one;
+    board.email = createBoardDto.email;
+    board.address = createBoardDto.address;
+    board.tel_two = createBoardDto.tel_two;
+    board.user_name = createBoardDto.user_name;
+    board.password = createBoardDto.password;
+    board.status = createBoardDto.status;
+
+    return this.boardRepository.save(board);
+  }
 
   async deleteBoard(id: number): Promise<void> {
     const result = await this.boardRepository.delete(id);
@@ -55,8 +89,30 @@ export class BoardsService {
   }
 
 
+  // async getAllBoards(): Promise<Board[]> {
+  //   return this.boardRepository.find();
+  // }
+
   async getAllBoards(): Promise<Board[]> {
     return this.boardRepository.find();
+  }
+  
+  async getActiveBoards(): Promise<Board[]> {
+    const options: FindManyOptions<Board> = {
+      where: {
+        status: 'active',
+      },
+    };
+    return this.boardRepository.find(options);
+  }
+  
+  async getDisabledBoards(): Promise<Board[]> {
+    const options: FindManyOptions<Board> = {
+      where: {
+        status: 'disabled',
+      },
+    };
+    return this.boardRepository.find(options);
   }
 
 async updateBoard(idx: number, createBoardDto: CreateBoardDto): Promise<Board> {
@@ -93,16 +149,46 @@ async updateBoard(idx: number, createBoardDto: CreateBoardDto): Promise<Board> {
   if (createBoardDto.password) {
     board.password = createBoardDto.password;
   }
-  if (createBoardDto.last_call_time) {
-    board.last_call_time = createBoardDto.last_call_time;
-  }
-
+ 
 
   // 변경사항 저장
   await this.boardRepository.save(board);
   return board;
 }
 
+
+
+
+// 포인트,가격 수정///
+
+// async updatePoint(idx: number, pointDto: pointDto): Promise<Point_b> {
+
+//   const point_b = await this.pointRepository.findOneBy({idx});
+
+//   if (!point_b) {
+//     throw new NotFoundException(`Entity with id ${idx} not found`);
+//   }
+
+
+//   if (pointDto.price !== undefined) {
+//     point_b.price = pointDto.price;
+//   }
+//   if (pointDto.point !== undefined) {
+//     point_b.point = pointDto.point;
+//   }
+
+
+//   await this.pointRepository.save(point_b);
+
+//   return point_b;
+// }
+
+
+// 포인트,가격 전체 불러오기
+
+// async getAllPoint(): Promise<Point_b[]> {
+//   return this.pointRepository.find();
+// }
 
 
 

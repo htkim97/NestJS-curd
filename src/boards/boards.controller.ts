@@ -9,13 +9,15 @@ import {
   UsePipes,
   ValidationPipe,
   Query,
-  ParseIntPipe
+  ParseIntPipe,
 } from '@nestjs/common';
 import { BoardsService } from './boards.service';
 import { BoardStatus } from './board-status.enum';
 import { CreateBoardDto } from './create-board.dto';
+import { pointDto } from '../point/dto/point.dto';
 import { BoardStatusValidationPipe } from './pipes/board-status-validation.pipe';
 import { Board } from './board.entitiy';
+import { Point_b } from '../point/point.entitiy';
 
 
 @Controller('users')
@@ -33,53 +35,79 @@ export class BoardsController {
   getBoardByDateRange(
     @Param('startDate') startDate: string,
     @Param('endDate') endDate: string,
+    @Query('status') status: string,
   ): Promise<Board[]> {
-    return this.boardsService.getBoardByDateRange(startDate, endDate);
+    return this.boardsService.getBoardByDateRange(startDate, endDate, status);
   }
 
-  //전체 가져오기
+  // 전체 가져오기
+  // @Get('/date')
+  // getAllBoard(): Promise<Board[]> {
+  //   return this.boardsService.getAllBoards();
+  // }
+
   @Get('/date')
-  getAllBoard(): Promise<Board[]> {
-    return this.boardsService.getAllBoards();
+  getAllBoard(@Query('status') status: string): Promise<Board[]> {
+    if (status === 'active') {
+      return this.boardsService.getActiveBoards();
+    } else if (status === 'disabled') {
+      return this.boardsService.getDisabledBoards();
+    } else {
+      return this.boardsService.getAllBoards();
+    }
   }
-  // 등록하기
-  @Post('/:num/:office/:point/:usage/:email/:address/:emer_num/:name/:pwd')
+
+ // 추가  
+  @Post("/:office_name/:tel_one/:email/:address/:tel_two/:user_name/:password/:status")
   @UsePipes(ValidationPipe)
   createBoard(
-    @Param() CreateBoardDto: CreateBoardDto
+    @Param() createBoardDto: CreateBoardDto
     ): Promise<Board> {
-    return this.boardsService.createBoard(CreateBoardDto);
-  }
-
-
-  // 해당 id 객체 삭제하기
-  @Delete('/:id')
-  deleteBoard(@Param('id') id: number): Promise<void> {
-    return this.boardsService.deleteBoard(id);
+    return this.boardsService.createBoard(createBoardDto);
   }
   
-  // @Post('/:id')
-  // async updateBoard(
-  //   @Param('id') id: number,
-  //   @Body() createBoardDto: CreateBoardDto,
+
+  // 해당 id 객체 삭제하기
+  @Delete('/:idx')
+  deleteBoard(@Param('idx') idx: number): Promise<void> {
+    return this.boardsService.deleteBoard(idx);
+  }
+    
+
+  // 회원관리 수정
+
+  @Patch('/:idx')
+  updateBoard(
+    @Param('idx') idx: number, 
+    @Query() createBoardDto: CreateBoardDto
+  ) {
+    return this.boardsService.updateBoard(idx, createBoardDto);
+  }
+
+
+  // // 포인트 수정
+
+  // @Patch('/point/:idx')
+  // updatePoint(
+  //   @Param('idx') idx: number, 
+  //   @Query() pointDto:  pointDto
   // ) {
-  //   return this.boardsService.updateBoard(id, createBoardDto);
+  //   return this.boardsService.updatePoint(idx, pointDto);
+  // }
+
+  
+  // // 전체 가져오기
+  // @Get('/point')
+  // getAllPoint(): Promise<Point_b[]> {
+  //   return this.boardsService.getAllPoint();
   // }
 
 
-  @Patch('/:id')
-  updateBoard(
-    @Param('id') id: number, 
-    @Query() createBoardDto: CreateBoardDto
-  ) {
-    return this.boardsService.updateBoard(id, createBoardDto);
-  }
 
-
-
-
-
-  /* 
+  /*     @Get('/')
+    getAllBoard(): Board[] {
+        return this.boardsService.getAllBoards();
+    }
     
     @Post()
     @UsePipes(ValidationPipe)
@@ -107,3 +135,9 @@ export class BoardsController {
         return this.boardsService.updateBoardStatus(id, status);
     } */
 }
+
+
+function GetUser() {
+  throw new Error('Function not implemented.');
+}
+

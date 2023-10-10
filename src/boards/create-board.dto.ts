@@ -1,34 +1,43 @@
-import { IsNotEmpty, IsNumber, IsString } from 'class-validator';
-
+import { IsNotEmpty,IsEmail, IsNumber, IsString } from 'class-validator';
+import { v4 as uuidv4 } from 'uuid';
 export class CreateBoardDto {
-  @IsNumber()
-  idx: number;
   @IsNotEmpty()
-  user_name: string;
-  @IsNotEmpty()
-  tel_one: string;
-  @IsNotEmpty()
-  created_at: string;
-  @IsNotEmpty()
-  update_at: string;
-  @IsNotEmpty()
-  email: string;
-  @IsNotEmpty()
-  address: string;
-  @IsNotEmpty()
-  tel_two: string;
-  @IsNotEmpty()
+  @IsString()
   office_name: string;
+
   @IsNotEmpty()
+  @IsString()
+  tel_one: string;
+
+  @IsNotEmpty()
+  @IsEmail()
+  email: string;
+
+  @IsNotEmpty()
+  @IsString()
+  address: string;
+
+  @IsNotEmpty()
+  @IsString()
+  tel_two: string;
+
+  @IsNotEmpty()
+  @IsString()
+  user_name: string;
+
+  @IsNotEmpty()
+  @IsString()
   password: string;
+
   @IsNotEmpty()
-  regi_date: string;
-  @IsNotEmpty()
-  last_call_time: string;
-  @IsNotEmpty()
-  user_no: string;
-  @IsNotEmpty()
-  recentlyLoginTime: string;
+  @IsString()
+  status: string;
   
 
+  // @IsNotEmpty()
+  // regi_date: string = new Date().toISOString();
+  // last_call_time: string;
+  // user_no: string;
+  // recentlyLoginTime: string;
+  // updated_at:string= new Date().toISOString();
 }

@@ -19,9 +19,10 @@ export class BoardRepository extends Repository<Board> {
       address,
       tel_two,
       password,
-      office_name,
-      last_call_time,
-      regi_date,
+      office_name
+      
+      // last_call_time,
+      // regi_date,
      
     } = createBoardDto;
 
@@ -34,8 +35,9 @@ export class BoardRepository extends Repository<Board> {
       email,
       password,
       status: BoardStatus.PUBLIC,
-      last_call_time,
-      regi_date,
+      // last_call_time,
+      // regi_date,
+    
    
     });
 
