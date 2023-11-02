@@ -3,7 +3,7 @@ import { UsageController } from './usage.controller';
 import { usageService } from './usage.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { usageRepository } from './usage.repository';
-import { Usage } from './usage.entitiy'; // Point_b 엔터티를 가져옴
+import { Usage } from './usage.entity'; // Point_b 엔터티를 가져옴
 
 @Module({
   imports: [TypeOrmModule.forFeature([Usage])],

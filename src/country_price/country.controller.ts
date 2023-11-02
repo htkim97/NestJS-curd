@@ -13,7 +13,7 @@ import {
   } from '@nestjs/common';
   import { countryService } from './country.service';
   import { countryDto } from './dto/country.dto';
-  import { country } from './country.entitiy';
+  import { country } from './country.entity';
   
   
   @Controller('users')

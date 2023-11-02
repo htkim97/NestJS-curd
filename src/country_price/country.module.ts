@@ -3,7 +3,7 @@ import { CountryController } from './country.controller';
 import { countryService } from './country.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { countryRepository } from './country.repository';
-import { country } from './country.entitiy'
+import { country } from './country.entity'
 
 @Module({
   imports: [TypeOrmModule.forFeature([country])],

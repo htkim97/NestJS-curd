@@ -1,11 +1,11 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { BoardStatus } from './board-status.enum';
+import { BoardStatus } from './callList-status.enum';
 import { v1 as uuid } from 'uuid';
 import { CreateBoardDto } from './create-board.dto';
 
 import { InjectRepository } from '@nestjs/typeorm';
-import { BoardRepository } from './board.repositoty';
-import { Board } from './board.entitiy';
+import { BoardRepository } from './callList.repositoty';
+import { Board } from './callList.entity';
 import { Between } from 'typeorm';
 import { FindManyOptions } from 'typeorm';
 import { Point_b } from '../point/point.entitiy';

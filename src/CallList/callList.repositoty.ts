@@ -1,9 +1,9 @@
 import { CreateBoardDto } from './create-board.dto';
 import { DataSource, Repository } from 'typeorm';
-import { Board } from './board.entitiy';
+import { Board } from './callList.entity';
 import { CustomRepository } from './typeorm-ex.decorator';
 import { Injectable } from '@nestjs/common';
-import { BoardStatus } from './board-status.enum';
+import { BoardStatus } from './callList-status.enum';
 
 @Injectable()
 export class BoardRepository extends Repository<Board> {

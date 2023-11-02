@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { country } from './country.entitiy';
+import { country } from './country.entity';
 import {countryDto} from './dto/country.dto'
 import { countryRepository } from './country.repository';
 

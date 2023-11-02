@@ -1,5 +1,5 @@
 import { PipeTransform, ArgumentMetadata, BadRequestException } from "@nestjs/common"
-import { BoardStatus } from "../board-status.enum";
+import { BoardStatus } from "../callList-status.enum";
 
 export class BoardStatusValidationPipe implements PipeTransform{
 

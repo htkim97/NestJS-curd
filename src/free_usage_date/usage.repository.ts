@@ -1,6 +1,6 @@
 import { usageDto } from './dto/usage.dto';
 import { DataSource, Repository } from 'typeorm';
-import { Usage } from './usage.entitiy';
+import { Usage } from './usage.entity';
 // import { CustomRepository } from './typeorm-ex.decorator';
 import { Injectable } from '@nestjs/common';
 // import { BoardStatus } from './board-status.enum';
@@ -11,7 +11,7 @@ export class usageRepository extends Repository<Usage> {
     super(Usage, dataSource.createEntityManager());
   }
 
-  async createBoard(usageDto: usageDto): Promise<Usage> {
+  async modify_usage(usageDto: usageDto): Promise<Usage> {
     const {
       free_date,
       basic_usage,

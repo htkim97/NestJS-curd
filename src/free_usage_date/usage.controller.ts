@@ -13,7 +13,7 @@ import {
   } from '@nestjs/common';
   import { usageService } from './usage.service';
   import { usageDto } from './dto/usage.dto';
-  import { Usage } from './usage.entitiy';
+  import { Usage } from './usage.entity';
   
   
   @Controller('users')

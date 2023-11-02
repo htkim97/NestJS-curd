@@ -11,7 +11,7 @@ export class pointRepository extends Repository<Point_b> {
     super(Point_b, dataSource.createEntityManager());
   }
 
-  async createBoard(pointDto: pointDto): Promise<Point_b> {
+  async modify_point(pointDto: pointDto): Promise<Point_b> {
     const {
       price,
       point,

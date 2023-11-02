@@ -1,6 +1,6 @@
 import { countryDto } from './dto/country.dto';
 import { DataSource, Repository } from 'typeorm';
-import { country } from './country.entitiy';
+import { country } from './country.entity';
 // import { CustomRepository } from './typeorm-ex.decorator';
 import { Injectable } from '@nestjs/common';
 // import { BoardStatus } from './board-status.enum';
@@ -11,7 +11,7 @@ export class countryRepository extends Repository<country> {
     super(country, dataSource.createEntityManager());
   }
 
-  async createBoard(countryDto: countryDto): Promise<country> {
+  async modify_country(countryDto: countryDto): Promise<country> {
     const {
       wired,
       wireless,

@@ -11,12 +11,12 @@ import {
   Query,
   ParseIntPipe,
 } from '@nestjs/common';
-import { BoardsService } from './boards.service';
-import { BoardStatus } from './board-status.enum';
+import { BoardsService } from './callList.service';
+import { BoardStatus } from './callList-status.enum';
 import { CreateBoardDto } from './create-board.dto';
 import { pointDto } from '../point/dto/point.dto';
-import { BoardStatusValidationPipe } from './pipes/board-status-validation.pipe';
-import { Board } from './board.entitiy';
+import { BoardStatusValidationPipe } from './pipes/callList-status-validation.pipe';
+import { Board } from './callList.entity';
 import { Point_b } from '../point/point.entitiy';
 
 

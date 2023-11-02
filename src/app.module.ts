@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { BoardsModule } from './boards/boards.module';
+import { BoardsModule } from './CallList/callList.module';
 import { typeORMConfig } from './configs/typeorm.config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthModule } from './auth/auth.module';

@@ -3,7 +3,7 @@ import { v1 as uuid } from 'uuid';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Between } from 'typeorm';
 import { FindManyOptions } from 'typeorm';
-import { Usage } from './usage.entitiy';
+import { Usage } from './usage.entity';
 import {usageDto} from './dto/usage.dto'
 import { usageRepository } from './usage.repository';
 
@@ -29,8 +29,6 @@ async updateUsage(idx: number, usageDto: usageDto): Promise<Usage> {
   if (!usage) {
     throw new NotFoundException(`Entity with id ${idx} not found`);
   }
-
-
   if (usageDto.free_date !== undefined) {
     usage.free_date = usageDto.free_date;
   }
